@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <button id="checkout">Buy</button>
+    <script>
+        const stripe = Stripe('pk_test_51ImPFCK5S3kVHXO073LJ8eL7r9iel94DCE3WIveCs9jKcOtgsZXOmH5TwZerUboOQkXqIUHQMpkIChYwJr717TWF00PBNH1jPm')
+        const button = document.getElementById('checkout')
+
+        button.addEventListener('click', () => {
+            fetch('/checkout', { method: 'POST' })
+                .then(res => res.json())
+                .then(sess => stripe.redirectToCheckout({ sessionId: sess.sessionID }))
+                .then(res => console.log(res))
+                .catch(err => console.error(err))
+        })
+    </script>
+</body>
+</html>
